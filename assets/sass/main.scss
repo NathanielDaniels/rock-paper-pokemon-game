@@ -20,43 +20,48 @@ body {
 /* SELECT SCREEN ============================================================*/
 .header{
   background: #0a0618; /* Old browsers */
-background: -moz-linear-gradient(top, #0a0618 0%, #261c53 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #0a0618 0%,#261c53 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #0a0618 0%,#261c53 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: -moz-linear-gradient(top, #0a0618 0%, #261c53 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #0a0618 0%,#261c53 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #0a0618 0%,#261c53 100%); /* W3C, IE10+,FF16+, Chrome26+, Opera12+, Safari7+ */
   position: fixed;
+  // position: absolute;
   color: white;
   font-size: 28px;
   border-bottom: 2px solid #4B37A3;
   width: 100%;
-  position: absolute;
+  height: 50px;
+  display: flex;
+  align-items: center;
 }
 .header .mode{
-  float: left;
   font-family: 'Press Start 2P', cursive;
   font-size: 14px;
-  padding: 15px;
+  width: 10%;
+  padding-left: 10px;
 }
+
 .header .title{
   font-family: 'Press Start 2P', cursive;
   font-size: 32px;
-  padding: 15px;
   text-align: center;
+  width: 100%;
+  position: absolute;
 }
 .select-screen{
   position: relative;
 }
+
 .select-screen .main{
   background: #76590b; /* Old browsers */
 background: -moz-linear-gradient(left, #76590b 0%, #cf9c11 10%, #ecb414 23%, #fafa74 35%, #fafafa 50%, #fafa74 65%, #ecb414 77%, #cf9c11 90%, #76590b 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(left, #76590b 0%,#cf9c11 10%,#ecb414 23%,#fafa74 35%,#fafafa 50%,#fafa74 65%,#ecb414 77%,#cf9c11 90%,#76590b 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to right, #76590b 0%,#cf9c11 10%,#ecb414 23%,#fafa74 35%,#fafafa 50%,#fafa74 65%,#ecb414 77%,#cf9c11 90%,#76590b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 width: 100%;
-padding: 100px 50px;
+height: 100vh;
 overflow: auto;
 display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+justify-content: center;
+align-items: center;
 }
 
 .select-screen .main .title{
@@ -106,25 +111,24 @@ display: flex;
 /* BATTLE SCREEN ============================================================*/
 #battle-screen{
     background: url(//i.imgur.com/UZKEjzG.png) no-repeat center center; 
-  -webkit-background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
-  -o-background-size: 100% 100%;
-  background-size: 100% 100%;
-  width: 100%;
-    padding: 0px 50px 0; //put "Fight" text on Top
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100vh;
     // padding: 100px 50px;
     overflow: auto;
-      height: 100vh;
-      position: relative;
-      top: 0;
-      transition: top .5s ease-in-out;
+    position: relative;
+    top: 0;
+    transition: top .5s ease-in-out;
 }
 
 #battle-screen.active {
   top: -100vh;
 }
 
-#battle-screen .fight-btn{
+#battle-screen .fight-title{
   font-family: 'Bangers', cursive;
   text-transform: capitalize;
   font-size: 200px;
@@ -133,7 +137,9 @@ display: flex;
 #battle-screen .battle-btns{
   text-align: center;
   vertical-align: top;
-  margin-top: 150px; // pushed buttons down.
+  position: relative;
+  top: 25%;
+  // margin-top: 150px; // pushed buttons down.
 }
 
 
@@ -212,7 +218,7 @@ display: flex;
 #battle-screen .player{
   position: absolute;
   bottom: 10%;
-  left: 20%;
+  left: 15%;
 }
 
 #battle-screen .player img{
@@ -262,7 +268,7 @@ display: flex;
 #battle-screen .player .player1 .stats .health .title{
   width: 25%;
   display: inline-block;
-  float: left;
+  // float: left;
 }
 #battle-screen .player .player1 .stats .health .health-bar{
   background: #10120C;
@@ -270,7 +276,7 @@ display: flex;
   width: 75%;
   display: inline-block;
   height: 16px;
-  float: left;
+  // float: left;
 }
 #battle-screen .player .player1 .stats .health .health-bar .inside{
   background: #70F8A8;
@@ -278,7 +284,7 @@ display: flex;
   
   display: inline-block;
   height: 16px;
-  float: left;
+  // float: left;
   transition: all .5s ease-in-out;
 }
 #battle-screen .player .player1 .stats .health .health-bar{
@@ -290,7 +296,7 @@ display: flex;
 #battle-screen .cpu{
   position: absolute;
   bottom: 10%;
-  right: 20%;
+  right: 15%;
 }
 
 #battle-screen .cpu .player2{
@@ -329,7 +335,7 @@ display: flex;
 #battle-screen .cpu .player2 .stats .health .title{
   width: 25%;
   display: inline-block;
-  float: left;
+  // float: left;
 }
 #battle-screen .cpu .player2 .stats .health .health-bar{
   background: #10120C;
@@ -337,15 +343,14 @@ display: flex;
   width: 75%;
   display: inline-block;
   height: 16px;
-  float: left;
+  // float: left;
 }
 #battle-screen .cpu .player2 .stats .health .health-bar .inside{
   background: #70F8A8;
   border-radius: 5px;
-  
   display: inline-block;
   height: 16px;
-  float: left;
+  // float: left;
   transition: all .5s ease-in-out;
 }
 #battle-screen .cpu .player1 .stats .health .health-bar{
