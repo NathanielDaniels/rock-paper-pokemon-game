@@ -38,7 +38,7 @@ var gameState = {
 var pokemonsEl = document.querySelector(".select-screen").querySelectorAll(".character");
 var battleScreenEl = document.getElementById("battle-screen");
 var attackBtnsEl = document.getElementById("battle-screen").querySelectorAll(".attack");
-console.log(attackBtnsEl);
+// console.log(attackBtnsEl);
 
 
 // selecting your pokemon (Initial Loop)
@@ -59,16 +59,22 @@ while (i < pokemonsEl.length) {
         // Change Screen to Battle Screen
         battleScreenEl.classList.toggle("active");
         // Select Data from Current User Pokemon
-        var currentPokemon = pokemonDB.filter( function (pokemon) {
+        gameState.currentPokemon = pokemonDB.filter( function (pokemon) {
             return pokemon.name == gameState.userPokemon
         })
-        player1Img[0].src = currentPokemon[0].img
+        player1Img[0].src = gameState.currentPokemon[0].img
         // Select Data from Current CPU Pokemon
-        var currentRivalPokemon = pokemonDB.filter( function (pokemon) {
+        gameState.currentRivalPokemon = pokemonDB.filter( function (pokemon) {
             return pokemon.name == gameState.rivalPokemon
         })
-        player2Img[0].src = currentRivalPokemon[0].img
+        player2Img[0].src = gameState.currentRivalPokemon[0].img
 
+        // current user and cpu pokemon initial health
+        gameState.currentPokemon[0].health = calculateInitialHealth(gameState.currentPokemon)
+        gameState.currentRivalPokemon[0].health = calculateInitialHealth(gameState.currentRivalPokemon)
+
+
+        console.log(gameState);
         // User Choose Attack
 
         // CPU Health Drop
@@ -97,53 +103,105 @@ while (a < attackBtnsEl.length) {
         var attackName = this.dataset.attack
         gameState.currentUserAttack = attackName
         // console.log(gameState.currentUserAttack);
-        play(attackName, 'paper')
+        play(attackName, cpuAttack())
     }
     a++
 }
 
+var cpuAttack = function() {
+    var attacks = ['rock', 'paper', 'scissors']
+    return attacks[randomNumber(0,3)]
+}
+
+var calculateInitialHealth = function(user) {
+    // console.log(user[0].level);
+    return ((0.20 * Math.sqrt(user[0].level)) * user[0].defense) * user[0].hp
+}
+
+var attackMove = function(attack, level, stack, critical, enemy) {
+    console.log(enemy.name + ' before: ' + enemy.health)
+    var attackAmount = ((attack * level) * (stack + critical)) / 2
+    // (attack * level) * stack / 7
+    enemy.health = enemy.health - attackAmount
+    checkWinner(enemy.health)
+    console.log(enemy.name + ' after: ' + enemy.health)
+}
+
+var checkWinner = function(enemyHealth) {
+    if(enemyHealth <= 0) {
+        console.log("Winner Winner Chicken Dinner")
+    }
+    
+}
+
 var play = function (userAttack, cpuAttack) {
+    var currentPokemon = gameState.currentPokemon[0]
+    var currentRivalPokemon = gameState.currentRivalPokemon[0]
     switch (userAttack) {
         case 'rock':
-            // console.log(userAttack)
             if (cpuAttack == 'paper') {
-                console.log("Paper Beats Rock!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, .5, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, 2, currentPokemon)
             }
             if (cpuAttack == 'scissors') {
-                console.log("Rock Beats Scissors!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, 2, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, .5, currentPokemon)
             }
             if (cpuAttack == 'rock') {
-                console.log("Tie!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, 1, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, 1, currentPokemon)
             }
             break;
         case 'paper':
             if (cpuAttack == 'rock') {
-                console.log("Paper Beats Rock!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, 2, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, .5, currentPokemon)
             }
             if (cpuAttack == 'scissors') {
-                console.log("Scissors Beat Paper!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, .5, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, 2, currentPokemon)
             }
             if (cpuAttack == 'paper') {
-                console.log("Tie!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, 1, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, 1, currentPokemon)
             }
-            // console.log(userAttack)
             break;
         case 'scissors':
             if (cpuAttack == 'rock') {
-                console.log("Rock Beats Scissors!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, .5, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, 2, currentPokemon)
             }
             if (cpuAttack == 'paper') {
-                console.log("Scissors Beat Paper!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, 2, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, .5, currentPokemon)
             }
             if (cpuAttack == 'scissors') {
-                console.log("Tie!")
+                // User
+                attackMove(currentPokemon.attack, currentPokemon.level, .8, 1, currentRivalPokemon)
+                // CPU (Enemy)
+                attackMove(currentRivalPokemon.attack, currentRivalPokemon.level, .8, 1, currentPokemon)
             }
-            // console.log(userAttack)
             break;
     }
 }
 // picks a number at random between min/max
-var randomNumber = function (min, max) {
+var randomNumber = function(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 // adds the picked selection into (=) rivalPokemon
